@@ -3,9 +3,7 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+main() {
   runApp(
     MaterialApp(
       routes: {
@@ -53,6 +51,19 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    _generateDynamicLink();
     return Scaffold();
+  }
+
+  Future<void> _generateDynamicLink() async {
+    DynamicLinkParameters params = DynamicLinkParameters(
+      uriPrefix: 'wolfiz.page.link',
+      link: Uri.parse('https://wolfiz.page.link/hello_world?name=Faizan'),
+      androidParameters: AndroidParameters(
+        packageName: 'com.wolfiz.dynamic_links_test',
+        minimumVersion: 0,
+      ),
+    );
+    print((await params.buildUrl()).toString());
   }
 }
